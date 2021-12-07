@@ -130,6 +130,7 @@ public class UserDAO {
         int id = 0;
         if (lstUser.size() == 0) {
             id = 1;
+            return id;
         } else {
             for (int i = 0; i < lstUser.size(); i++) {
                 if (lstUser.get(i).getId() > id) {
@@ -137,8 +138,8 @@ public class UserDAO {
                 }
             }
             id++;
+            return id;
         }
-        return id;
     }
 
     public static boolean checkUsername(List<UserDTO> lstUser, String username) {

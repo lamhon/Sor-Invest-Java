@@ -335,6 +335,8 @@ public class LoginGUI extends javax.swing.JFrame {
                 }
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }

@@ -5,7 +5,9 @@
  */
 package GUI;
 
+import DAO.CoinDAO;
 import DAO.UserDAO;
+import DTO.CoinDTO;
 import DTO.UserDTO;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -19,6 +21,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -29,7 +33,7 @@ public class MainGUI extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    public MainGUI() {
+    public MainGUI() throws IOException {
         initComponents();
 
         JButton[] btns = {btn_home, btn_user, btn_history, btn_coin};
@@ -94,9 +98,11 @@ public class MainGUI extends javax.swing.JFrame {
         });
 
         loadDataUser();
+        loadDataCoin();
     }
 
     public static UserDTO USER = LoginGUI.USER;
+    private static List<CoinDTO> lstCoin;
 
     // Switch panel
     private void switchPanels(JPanel panelTop, JPanel panelBot) {
@@ -117,6 +123,26 @@ public class MainGUI extends javax.swing.JFrame {
     private void loadDataUser() {
         txt_User_username.setText(USER.getUserlogin());
         txt_User_name.setText(USER.getUsername());
+    }
+
+    //Load list Coin data
+    private void loadDataCoin() throws IOException {
+        lstCoin = CoinDAO.loadCoin();
+
+        DefaultTableModel model = (DefaultTableModel) tbl_Coin_lstcoin.getModel();
+        model.setRowCount(0);
+        Object[] row = new Object[5];
+        for (int i = 0; i < lstCoin.size(); i++) {
+            row[0] = i + 1;
+            row[1] = lstCoin.get(i).getId();
+            row[2] = lstCoin.get(i).getCoinname();
+            if (lstCoin.get(i).isStt()) {
+                row[4] = "Active";
+            } else {
+                row[4] = "Not working";
+            }
+            model.addRow(row);
+        }
     }
 
     /**
@@ -217,15 +243,15 @@ public class MainGUI extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tbl_Coin_lstcoin = new javax.swing.JTable();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jTextField9 = new javax.swing.JTextField();
+        btn_Coin_restore = new javax.swing.JButton();
+        btn_Coin_addCoin = new javax.swing.JButton();
+        btn_Coin_update = new javax.swing.JButton();
+        btn_Coin_delete = new javax.swing.JButton();
+        txt_Coin_coinName = new javax.swing.JTextField();
         pnlBotUser = new javax.swing.JPanel();
         jSeparator4 = new javax.swing.JSeparator();
         jPanel14 = new javax.swing.JPanel();
@@ -978,12 +1004,10 @@ public class MainGUI extends javax.swing.JFrame {
         pnlBotCoin.add(jPanel10);
         jPanel10.setBounds(20, 160, 50, 5);
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_Coin_lstcoin.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        tbl_Coin_lstcoin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "No", "ID", "Coin name", "Quantity", "STT"
@@ -997,8 +1021,13 @@ public class MainGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable4);
-        jTable4.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_Coin_lstcoin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_Coin_lstcoinMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tbl_Coin_lstcoin);
+        tbl_Coin_lstcoin.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         pnlBotCoin.add(jScrollPane4);
         jScrollPane4.setBounds(10, 180, 950, 400);
@@ -1029,30 +1058,49 @@ public class MainGUI extends javax.swing.JFrame {
         jPanel11.add(jLabel32);
         jLabel32.setBounds(10, 10, 120, 19);
 
-        jButton7.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jButton7.setText("Restore");
-        jPanel11.add(jButton7);
-        jButton7.setBounds(370, 90, 90, 30);
+        btn_Coin_restore.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        btn_Coin_restore.setText("Restore");
+        btn_Coin_restore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Coin_restoreActionPerformed(evt);
+            }
+        });
+        jPanel11.add(btn_Coin_restore);
+        btn_Coin_restore.setBounds(370, 90, 90, 30);
 
-        jButton8.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jButton8.setText("Add");
-        jPanel11.add(jButton8);
-        jButton8.setBounds(50, 90, 80, 30);
+        btn_Coin_addCoin.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        btn_Coin_addCoin.setText("Add");
+        btn_Coin_addCoin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Coin_addCoinActionPerformed(evt);
+            }
+        });
+        jPanel11.add(btn_Coin_addCoin);
+        btn_Coin_addCoin.setBounds(50, 90, 80, 30);
 
-        jButton9.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jButton9.setText("Update");
-        jPanel11.add(jButton9);
-        jButton9.setBounds(150, 90, 90, 30);
+        btn_Coin_update.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        btn_Coin_update.setText("Update");
+        btn_Coin_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Coin_updateActionPerformed(evt);
+            }
+        });
+        jPanel11.add(btn_Coin_update);
+        btn_Coin_update.setBounds(150, 90, 90, 30);
 
-        jButton10.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jButton10.setText("Delete");
-        jPanel11.add(jButton10);
-        jButton10.setBounds(260, 90, 90, 30);
+        btn_Coin_delete.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        btn_Coin_delete.setText("Delete");
+        btn_Coin_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Coin_deleteActionPerformed(evt);
+            }
+        });
+        jPanel11.add(btn_Coin_delete);
+        btn_Coin_delete.setBounds(260, 90, 90, 30);
 
-        jTextField9.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jTextField9.setText("jTextField9");
-        jPanel11.add(jTextField9);
-        jTextField9.setBounds(150, 40, 200, 30);
+        txt_Coin_coinName.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jPanel11.add(txt_Coin_coinName);
+        txt_Coin_coinName.setBounds(150, 40, 200, 30);
 
         pnlBotCoin.add(jPanel11);
         jPanel11.setBounds(250, 20, 500, 140);
@@ -1277,7 +1325,7 @@ public class MainGUI extends javax.swing.JFrame {
                         } catch (IOException ex) {
                             Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    }else{
+                    } else {
                         JOptionPane.showMessageDialog(this, "Old password is wrong", "Alert", JOptionPane.WARNING_MESSAGE);
                     }
                 } catch (NoSuchAlgorithmException ex) {
@@ -1286,6 +1334,161 @@ public class MainGUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btn_User_savePassActionPerformed
+
+    private void btn_Coin_addCoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Coin_addCoinActionPerformed
+        // TODO add your handling code here:
+        String coinName = txt_Coin_coinName.getText();
+
+        if (coinName.equals("")) {
+            JOptionPane.showMessageDialog(this, "Please enter coin name", "Alert", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (CoinDAO.checkCoinName(lstCoin, coinName)) {
+                CoinDTO coin = new CoinDTO();
+                coin.setId(CoinDAO.getNextId(lstCoin));
+                coin.setCoinname(coinName);
+                coin.setUsercoin(USER.getId());
+                coin.setStt(true);
+
+                try {
+                    if (CoinDAO.writeToDB(coin)) {
+                        lstCoin.add(coin);
+                        loadDataCoin();
+                        JOptionPane.showMessageDialog(this, "Add coin success");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Add coin failure", "Alert", JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Coin name already exist", "Alert", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_btn_Coin_addCoinActionPerformed
+
+    private void tbl_Coin_lstcoinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_Coin_lstcoinMouseClicked
+        // TODO add your handling code here:
+        int index = tbl_Coin_lstcoin.getSelectedRow();
+        TableModel model = tbl_Coin_lstcoin.getModel();
+
+        txt_Coin_coinName.setText(String.valueOf(model.getValueAt(index, 2)));
+    }//GEN-LAST:event_tbl_Coin_lstcoinMouseClicked
+
+    private void btn_Coin_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Coin_updateActionPerformed
+        // TODO add your handling code here:
+        String name = txt_Coin_coinName.getText();
+        if (name.equals("")) {
+            JOptionPane.showMessageDialog(this, "Please enter coin name", "Alert", JOptionPane.WARNING_MESSAGE);
+        } else {
+            int index = tbl_Coin_lstcoin.getSelectedRow();
+            TableModel model = tbl_Coin_lstcoin.getModel();
+
+            int id = Integer.parseInt(model.getValueAt(index, 1).toString());
+
+            if (name.equals(CoinDAO.getCoinById(lstCoin, id).getCoinname())) {
+
+            } else {
+                if (CoinDAO.checkCoinName(lstCoin, name)) {
+                    CoinDTO coin = new CoinDTO();
+                    coin.setId(id);
+                    coin.setCoinname(name);
+                    coin.setUsercoin(USER.getId());
+                    coin.setStt(true);
+
+                    try {
+                        int ques = JOptionPane.showConfirmDialog(this, "Do you want to re-name '" + String.valueOf(model.getValueAt(index, 2)) + "' => '" + name + "' ?");
+                        if (ques == JOptionPane.YES_OPTION) {
+                            if (CoinDAO.repairToDB(coin)) {
+                                JOptionPane.showMessageDialog(this, "Rename coin success");
+                                loadDataCoin();
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Rename coin failure", "Alert", JOptionPane.WARNING_MESSAGE);
+                            }
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Coin name is already exist", "Alert", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_btn_Coin_updateActionPerformed
+
+    private void btn_Coin_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Coin_deleteActionPerformed
+        // TODO add your handling code here:
+        if (txt_Coin_coinName.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Please choose coin you want to delete", "Alert", JOptionPane.WARNING_MESSAGE);
+        } else {
+            int index = tbl_Coin_lstcoin.getSelectedRow();
+            TableModel model = tbl_Coin_lstcoin.getModel();
+
+            int id = Integer.parseInt(model.getValueAt(index, 1).toString());
+            String stt = String.valueOf(model.getValueAt(index, 4));
+
+            if (stt.equals("Not working")) {
+
+            } else {
+                CoinDTO coin = new CoinDTO();
+                coin.setId(id);
+                coin.setCoinname(txt_Coin_coinName.getText());
+                coin.setUsercoin(USER.getId());
+                coin.setStt(false);
+
+                int ques = JOptionPane.showConfirmDialog(this, "Do you want to disable '" + txt_Coin_coinName.getText() + "' ?");
+                if (ques == JOptionPane.YES_OPTION) {
+                    try {
+                        if (CoinDAO.repairToDB(coin)) {
+                            JOptionPane.showMessageDialog(this, "Disable coin success");
+                            loadDataCoin();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Disable coin failure", "Alert", JOptionPane.WARNING_MESSAGE);
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_btn_Coin_deleteActionPerformed
+
+    private void btn_Coin_restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Coin_restoreActionPerformed
+        // TODO add your handling code here:
+        if (txt_Coin_coinName.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Please choose coin you want to restore", "Alert", JOptionPane.WARNING_MESSAGE);
+        } else {
+            int index = tbl_Coin_lstcoin.getSelectedRow();
+            TableModel model = tbl_Coin_lstcoin.getModel();
+
+            int id = Integer.parseInt(model.getValueAt(index, 1).toString());
+            String stt = String.valueOf(model.getValueAt(index, 4));
+
+            if (stt.equals("Active")) {
+
+            } else {
+                CoinDTO coin = new CoinDTO();
+                coin.setId(id);
+                coin.setCoinname(txt_Coin_coinName.getText());
+                coin.setUsercoin(USER.getId());
+                coin.setStt(true);
+
+                int ques = JOptionPane.showConfirmDialog(this, "Do you want to restore '" + txt_Coin_coinName.getText() + "' ?");
+                if (ques == JOptionPane.YES_OPTION) {
+                    try {
+                        if (CoinDAO.repairToDB(coin)) {
+                            JOptionPane.showMessageDialog(this, "Restore coin success");
+                            loadDataCoin();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Restore coin failure", "Alert", JOptionPane.WARNING_MESSAGE);
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_btn_Coin_restoreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1318,12 +1521,20 @@ public class MainGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainGUI().setVisible(true);
+                try {
+                    new MainGUI().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Coin_addCoin;
+    private javax.swing.JButton btn_Coin_delete;
+    private javax.swing.JButton btn_Coin_restore;
+    private javax.swing.JButton btn_Coin_update;
     private javax.swing.JButton btn_User_saveInfo;
     private javax.swing.JButton btn_User_savePass;
     private javax.swing.JButton btn_coin;
@@ -1332,13 +1543,9 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JButton btn_home;
     private javax.swing.JButton btn_user;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -1409,7 +1616,6 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -1421,7 +1627,6 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JLayeredPane layeredPaneBot;
     private javax.swing.JLayeredPane layeredPaneTop;
     private javax.swing.JPanel pnlBotCoin;
@@ -1437,6 +1642,8 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JPanel pnlTopHistory;
     private javax.swing.JPanel pnlTopHome;
     private javax.swing.JPanel pnlTopUser;
+    private javax.swing.JTable tbl_Coin_lstcoin;
+    private javax.swing.JTextField txt_Coin_coinName;
     private javax.swing.JPasswordField txt_User_confirm;
     private javax.swing.JTextField txt_User_name;
     private javax.swing.JPasswordField txt_User_newPass;
