@@ -5,9 +5,16 @@
  */
 package GUI;
 
+import DAO.UserDAO;
+import DTO.UserDTO;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,8 +31,8 @@ public class MainGUI extends javax.swing.JFrame {
      */
     public MainGUI() {
         initComponents();
-        
-        JButton[] btns = {btn_home};
+
+        JButton[] btns = {btn_home, btn_user, btn_history, btn_coin};
         for (JButton btn : btns) {
             btn.setBackground(new Color(51, 66, 87));
             btn.setUI(new BasicButtonUI());
@@ -56,7 +63,7 @@ public class MainGUI extends javax.swing.JFrame {
                 }
             });
         }
-        
+
         btn_exit.setBackground(new Color(51, 66, 87));
         btn_exit.setUI(new BasicButtonUI());
         btn_exit.addMouseListener(new MouseListener() {
@@ -85,8 +92,12 @@ public class MainGUI extends javax.swing.JFrame {
                 btn_exit.setBackground(new Color(51, 66, 87));
             }
         });
+
+        loadDataUser();
     }
-    
+
+    public static UserDTO USER = LoginGUI.USER;
+
     // Switch panel
     private void switchPanels(JPanel panelTop, JPanel panelBot) {
         layeredPaneTop.removeAll();
@@ -100,6 +111,12 @@ public class MainGUI extends javax.swing.JFrame {
 
         layeredPaneTop.revalidate();
         layeredPaneBot.revalidate();
+    }
+
+    //Load User Data Area
+    private void loadDataUser() {
+        txt_User_username.setText(USER.getUserlogin());
+        txt_User_name.setText(USER.getUsername());
     }
 
     /**
@@ -116,6 +133,9 @@ public class MainGUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btn_home = new javax.swing.JButton();
+        btn_history = new javax.swing.JButton();
+        btn_coin = new javax.swing.JButton();
+        btn_user = new javax.swing.JButton();
         btn_exit = new javax.swing.JButton();
         pnlCenter = new javax.swing.JPanel();
         pnlTop = new javax.swing.JPanel();
@@ -123,15 +143,113 @@ public class MainGUI extends javax.swing.JFrame {
         pnlTopHome = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        pnlTopHistory = new javax.swing.JPanel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        pnlTopCoin = new javax.swing.JPanel();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        pnlTopUser = new javax.swing.JPanel();
+        jLabel42 = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
         pnlBottom = new javax.swing.JPanel();
         layeredPaneBot = new javax.swing.JLayeredPane();
         pnlBotHome = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jTextField5 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        pnlBotHistory = new javax.swing.JPanel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel26 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel30 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel16 = new javax.swing.JLabel();
+        jTextField8 = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jTextField11 = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel31 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel20 = new javax.swing.JLabel();
+        jTextField10 = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jTextField12 = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
+        pnlBotCoin = new javax.swing.JPanel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel27 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel32 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jTextField9 = new javax.swing.JTextField();
+        pnlBotUser = new javax.swing.JPanel();
+        jSeparator4 = new javax.swing.JSeparator();
+        jPanel14 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel34 = new javax.swing.JLabel();
+        txt_User_name = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        txt_User_username = new javax.swing.JTextField();
+        btn_User_saveInfo = new javax.swing.JButton();
+        jPanel13 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        txt_User_confirm = new javax.swing.JPasswordField();
+        txt_User_oldPass = new javax.swing.JPasswordField();
+        txt_User_newPass = new javax.swing.JPasswordField();
+        btn_User_savePass = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1100, 700));
         setMinimumSize(new java.awt.Dimension(1100, 700));
-        setPreferredSize(new java.awt.Dimension(1100, 700));
         setResizable(false);
 
         pnlRoot.setLayout(new java.awt.BorderLayout());
@@ -169,7 +287,7 @@ public class MainGUI extends javax.swing.JFrame {
         btn_home.setBackground(new java.awt.Color(84, 140, 168));
         btn_home.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btn_home.setForeground(new java.awt.Color(238, 238, 238));
-        btn_home.setIcon(new javax.swing.ImageIcon("D:\\1.Sor\\IT\\Study\\Java\\Project\\ProjectJava\\src\\main\\java\\com\\mycompany\\projectjava\\icon\\icon_home.png")); // NOI18N
+        btn_home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icon_home_white_30.png"))); // NOI18N
         btn_home.setText("HOME");
         btn_home.setBorder(null);
         btn_home.setBorderPainted(false);
@@ -182,10 +300,58 @@ public class MainGUI extends javax.swing.JFrame {
         });
         pnlSide.add(btn_home);
 
+        btn_history.setBackground(new java.awt.Color(84, 140, 168));
+        btn_history.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btn_history.setForeground(new java.awt.Color(238, 238, 238));
+        btn_history.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icon_history_white_30.png"))); // NOI18N
+        btn_history.setText("HISTORY");
+        btn_history.setBorder(null);
+        btn_history.setBorderPainted(false);
+        btn_history.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        btn_history.setPreferredSize(new java.awt.Dimension(130, 60));
+        btn_history.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_historyMouseClicked(evt);
+            }
+        });
+        pnlSide.add(btn_history);
+
+        btn_coin.setBackground(new java.awt.Color(84, 140, 168));
+        btn_coin.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btn_coin.setForeground(new java.awt.Color(238, 238, 238));
+        btn_coin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icon_coin_white_30.png"))); // NOI18N
+        btn_coin.setText("COINS");
+        btn_coin.setBorder(null);
+        btn_coin.setBorderPainted(false);
+        btn_coin.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        btn_coin.setPreferredSize(new java.awt.Dimension(130, 60));
+        btn_coin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_coinMouseClicked(evt);
+            }
+        });
+        pnlSide.add(btn_coin);
+
+        btn_user.setBackground(new java.awt.Color(84, 140, 168));
+        btn_user.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btn_user.setForeground(new java.awt.Color(238, 238, 238));
+        btn_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icon_user_white_30.png"))); // NOI18N
+        btn_user.setText("USER");
+        btn_user.setBorder(null);
+        btn_user.setBorderPainted(false);
+        btn_user.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        btn_user.setPreferredSize(new java.awt.Dimension(130, 60));
+        btn_user.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_userMouseClicked(evt);
+            }
+        });
+        pnlSide.add(btn_user);
+
         btn_exit.setBackground(new java.awt.Color(84, 140, 168));
         btn_exit.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btn_exit.setForeground(new java.awt.Color(238, 238, 238));
-        btn_exit.setIcon(new javax.swing.ImageIcon("D:\\1.Sor\\IT\\Study\\Java\\Project\\ProjectJava\\src\\main\\java\\com\\mycompany\\projectjava\\icon\\icon_exit.png")); // NOI18N
+        btn_exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icon_exit_white_30.png"))); // NOI18N
         btn_exit.setText("EXIT");
         btn_exit.setBorder(null);
         btn_exit.setBorderPainted(false);
@@ -229,7 +395,7 @@ public class MainGUI extends javax.swing.JFrame {
                 .addGroup(pnlTopHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
-                .addContainerGap(1458, Short.MAX_VALUE))
+                .addContainerGap(1253, Short.MAX_VALUE))
         );
         pnlTopHomeLayout.setVerticalGroup(
             pnlTopHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,6 +409,105 @@ public class MainGUI extends javax.swing.JFrame {
 
         layeredPaneTop.add(pnlTopHome, "card2");
 
+        pnlTopHistory.setBackground(new java.awt.Color(71, 96, 114));
+
+        jLabel28.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 36)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(238, 238, 238));
+        jLabel28.setText("HISTORY");
+
+        jLabel29.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(238, 238, 238));
+        jLabel29.setText("Statistical");
+
+        javax.swing.GroupLayout pnlTopHistoryLayout = new javax.swing.GroupLayout(pnlTopHistory);
+        pnlTopHistory.setLayout(pnlTopHistoryLayout);
+        pnlTopHistoryLayout.setHorizontalGroup(
+            pnlTopHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTopHistoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlTopHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel28)
+                    .addComponent(jLabel29))
+                .addContainerGap(1226, Short.MAX_VALUE))
+        );
+        pnlTopHistoryLayout.setVerticalGroup(
+            pnlTopHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTopHistoryLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel29)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        layeredPaneTop.add(pnlTopHistory, "card2");
+
+        pnlTopCoin.setBackground(new java.awt.Color(71, 96, 114));
+
+        jLabel40.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 36)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(238, 238, 238));
+        jLabel40.setText("COIN");
+
+        jLabel41.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel41.setForeground(new java.awt.Color(238, 238, 238));
+        jLabel41.setText("Your coins");
+
+        javax.swing.GroupLayout pnlTopCoinLayout = new javax.swing.GroupLayout(pnlTopCoin);
+        pnlTopCoin.setLayout(pnlTopCoinLayout);
+        pnlTopCoinLayout.setHorizontalGroup(
+            pnlTopCoinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTopCoinLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlTopCoinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel40)
+                    .addComponent(jLabel41))
+                .addContainerGap(1277, Short.MAX_VALUE))
+        );
+        pnlTopCoinLayout.setVerticalGroup(
+            pnlTopCoinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTopCoinLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel41)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        layeredPaneTop.add(pnlTopCoin, "card2");
+
+        pnlTopUser.setBackground(new java.awt.Color(71, 96, 114));
+
+        jLabel42.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 1, 36)); // NOI18N
+        jLabel42.setForeground(new java.awt.Color(238, 238, 238));
+        jLabel42.setText("INFORMATION");
+
+        jLabel43.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 18)); // NOI18N
+        jLabel43.setForeground(new java.awt.Color(238, 238, 238));
+        jLabel43.setText("Your information");
+
+        javax.swing.GroupLayout pnlTopUserLayout = new javax.swing.GroupLayout(pnlTopUser);
+        pnlTopUser.setLayout(pnlTopUserLayout);
+        pnlTopUserLayout.setHorizontalGroup(
+            pnlTopUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTopUserLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlTopUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel42)
+                    .addComponent(jLabel43))
+                .addContainerGap(1141, Short.MAX_VALUE))
+        );
+        pnlTopUserLayout.setVerticalGroup(
+            pnlTopUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTopUserLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel43)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        layeredPaneTop.add(pnlTopUser, "card2");
+
         pnlTop.add(layeredPaneTop, java.awt.BorderLayout.CENTER);
 
         pnlCenter.add(pnlTop, java.awt.BorderLayout.NORTH);
@@ -255,21 +520,675 @@ public class MainGUI extends javax.swing.JFrame {
         pnlBotHome.setBackground(new java.awt.Color(238, 238, 238));
         pnlBotHome.setMaximumSize(new java.awt.Dimension(970, 588));
         pnlBotHome.setMinimumSize(new java.awt.Dimension(970, 588));
+        pnlBotHome.setLayout(null);
+        pnlBotHome.add(jSeparator1);
+        jSeparator1.setBounds(0, 0, 1263, 10);
 
-        javax.swing.GroupLayout pnlBotHomeLayout = new javax.swing.GroupLayout(pnlBotHome);
-        pnlBotHome.setLayout(pnlBotHomeLayout);
-        pnlBotHomeLayout.setHorizontalGroup(
-            pnlBotHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 970, Short.MAX_VALUE)
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "No", "Coin name", "Quantity", "VNĐ Price", "Dollar Price"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        pnlBotHome.add(jScrollPane1);
+        jScrollPane1.setBounds(0, 230, 510, 360);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "No", "Quantity", "Buy price", "Buy time"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.setCellSelectionEnabled(true);
+        jScrollPane2.setViewportView(jTable2);
+        jTable2.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        pnlBotHome.add(jScrollPane2);
+        jScrollPane2.setBounds(520, 230, 450, 360);
+
+        jTextField3.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField3.setText("jTextField3");
+        pnlBotHome.add(jTextField3);
+        jTextField3.setBounds(620, 40, 200, 30);
+
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel6.setText("Exchange rate");
+        pnlBotHome.add(jLabel6);
+        jLabel6.setBounds(660, 10, 100, 30);
+
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel7.setText("VNĐ");
+        pnlBotHome.add(jLabel7);
+        jLabel7.setBounds(630, 120, 40, 30);
+
+        jButton2.setText("Save");
+        jButton2.setPreferredSize(new java.awt.Dimension(57, 25));
+        pnlBotHome.add(jButton2);
+        jButton2.setBounds(850, 40, 110, 30);
+
+        jTextField1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField1.setText("jTextField1");
+        jTextField1.setEnabled(false);
+        pnlBotHome.add(jTextField1);
+        jTextField1.setBounds(10, 40, 150, 30);
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel4.setText("Coin name");
+        pnlBotHome.add(jLabel4);
+        jLabel4.setBounds(40, 10, 80, 20);
+
+        jTextField2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField2.setText("jTextField2");
+        pnlBotHome.add(jTextField2);
+        jTextField2.setBounds(170, 40, 155, 30);
+
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel5.setText("VNĐ Price");
+        pnlBotHome.add(jLabel5);
+        jLabel5.setBounds(200, 10, 75, 19);
+
+        jButton1.setText("Save");
+        jButton1.setPreferredSize(new java.awt.Dimension(57, 25));
+        pnlBotHome.add(jButton1);
+        jButton1.setBounds(340, 40, 90, 30);
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel8.setText("Total assets");
+        pnlBotHome.add(jLabel8);
+        jLabel8.setBounds(770, 100, 90, 19);
+
+        jTextField4.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField4.setText("jTextField4");
+        jTextField4.setEnabled(false);
+        jTextField4.setPreferredSize(new java.awt.Dimension(60, 25));
+        pnlBotHome.add(jTextField4);
+        jTextField4.setBounds(730, 130, 180, 30);
+
+        jLabel9.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel9.setText("/ 1$");
+        pnlBotHome.add(jLabel9);
+        jLabel9.setBounds(820, 40, 26, 30);
+
+        jLabel10.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel10.setText("CHECK SELL PRICE");
+        pnlBotHome.add(jLabel10);
+        jLabel10.setBounds(10, 80, 160, 19);
+
+        jPanel2.setBackground(new java.awt.Color(34, 87, 126));
+        jPanel2.setMaximumSize(new java.awt.Dimension(100, 5));
+        jPanel2.setMinimumSize(new java.awt.Dimension(100, 5));
+        jPanel2.setPreferredSize(new java.awt.Dimension(100, 5));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
-        pnlBotHomeLayout.setVerticalGroup(
-            pnlBotHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlBotHomeLayout.createSequentialGroup()
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(578, Short.MAX_VALUE))
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
         );
+
+        pnlBotHome.add(jPanel2);
+        jPanel2.setBounds(10, 100, 120, 5);
+
+        jTextField5.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField5.setText("Coin name");
+        pnlBotHome.add(jTextField5);
+        jTextField5.setBounds(20, 120, 140, 30);
+
+        jTextField6.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField6.setText("jTextField6");
+        pnlBotHome.add(jTextField6);
+        jTextField6.setBounds(470, 120, 160, 30);
+
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel11.setText("Quantity");
+        pnlBotHome.add(jLabel11);
+        jLabel11.setBounds(180, 120, 60, 30);
+
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel12.setText("Price difference: ");
+        pnlBotHome.add(jLabel12);
+        jLabel12.setBounds(350, 119, 120, 30);
+
+        jTextField7.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField7.setText("jTextField6");
+        pnlBotHome.add(jTextField7);
+        jTextField7.setBounds(240, 120, 90, 30);
+
+        jLabel13.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel13.setText("VNĐ");
+        pnlBotHome.add(jLabel13);
+        jLabel13.setBounds(920, 130, 40, 30);
+
+        jLabel14.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel14.setText("LIST COIN");
+        pnlBotHome.add(jLabel14);
+        jLabel14.setBounds(10, 180, 160, 19);
+
+        jPanel3.setBackground(new java.awt.Color(34, 87, 126));
+        jPanel3.setMaximumSize(new java.awt.Dimension(100, 5));
+        jPanel3.setMinimumSize(new java.awt.Dimension(100, 5));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        pnlBotHome.add(jPanel3);
+        jPanel3.setBounds(10, 200, 50, 5);
+
+        jLabel15.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel15.setText("LIST BUY COIN");
+        pnlBotHome.add(jLabel15);
+        jLabel15.setBounds(520, 180, 160, 19);
+
+        jPanel4.setBackground(new java.awt.Color(34, 87, 126));
+        jPanel4.setMaximumSize(new java.awt.Dimension(100, 5));
+        jPanel4.setMinimumSize(new java.awt.Dimension(100, 5));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        pnlBotHome.add(jPanel4);
+        jPanel4.setBounds(520, 200, 85, 5);
 
         layeredPaneBot.add(pnlBotHome, "card2");
+
+        pnlBotHistory.setBackground(new java.awt.Color(238, 238, 238));
+        pnlBotHistory.setMaximumSize(new java.awt.Dimension(970, 588));
+        pnlBotHistory.setMinimumSize(new java.awt.Dimension(970, 588));
+        pnlBotHistory.setLayout(null);
+        pnlBotHistory.add(jSeparator2);
+        jSeparator2.setBounds(0, 0, 1263, 10);
+
+        jLabel26.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel26.setText("HISTORY");
+        pnlBotHistory.add(jLabel26);
+        jLabel26.setBounds(20, 20, 80, 19);
+
+        jPanel6.setBackground(new java.awt.Color(34, 87, 126));
+        jPanel6.setMaximumSize(new java.awt.Dimension(100, 5));
+        jPanel6.setMinimumSize(new java.awt.Dimension(100, 5));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        pnlBotHistory.add(jPanel6);
+        jPanel6.setBounds(20, 40, 50, 5);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "No", "Coin name", "Quantity", "Type", "Price"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable3.setColumnSelectionAllowed(true);
+        jScrollPane3.setViewportView(jTable3);
+        jTable3.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTable3.getColumnModel().getColumnCount() > 0) {
+            jTable3.getColumnModel().getColumn(4).setHeaderValue("Price");
+        }
+
+        pnlBotHistory.add(jScrollPane3);
+        jScrollPane3.setBounds(20, 60, 452, 510);
+
+        jPanel5.setBackground(new java.awt.Color(81, 146, 89));
+        jPanel5.setLayout(null);
+
+        jPanel8.setBackground(new java.awt.Color(34, 87, 126));
+        jPanel8.setMaximumSize(new java.awt.Dimension(100, 5));
+        jPanel8.setMinimumSize(new java.awt.Dimension(100, 5));
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        jPanel5.add(jPanel8);
+        jPanel8.setBounds(10, 30, 25, 5);
+
+        jLabel30.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel30.setText("BUY");
+        jPanel5.add(jLabel30);
+        jLabel30.setBounds(10, 10, 40, 19);
+
+        jComboBox1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel5.add(jComboBox1);
+        jComboBox1.setBounds(10, 70, 140, 30);
+
+        jLabel16.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("Coin name");
+        jPanel5.add(jLabel16);
+        jLabel16.setBounds(10, 40, 140, 19);
+
+        jTextField8.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField8.setText("jTextField8");
+        jPanel5.add(jTextField8);
+        jTextField8.setBounds(160, 70, 83, 30);
+
+        jLabel17.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("Price (VNĐ)");
+        jPanel5.add(jLabel17);
+        jLabel17.setBounds(260, 40, 140, 19);
+
+        jLabel18.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setText("Quantity");
+        jPanel5.add(jLabel18);
+        jLabel18.setBounds(160, 40, 80, 19);
+
+        jButton4.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jButton4.setText("Save");
+        jPanel5.add(jButton4);
+        jButton4.setBounds(380, 10, 80, 40);
+
+        jTextField11.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField11.setText("jTextField9");
+        jPanel5.add(jTextField11);
+        jTextField11.setBounds(260, 70, 140, 30);
+
+        pnlBotHistory.add(jPanel5);
+        jPanel5.setBounds(490, 10, 470, 110);
+
+        jPanel7.setBackground(new java.awt.Color(200, 92, 92));
+        jPanel7.setLayout(null);
+
+        jLabel31.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel31.setText("SELL");
+        jPanel7.add(jLabel31);
+        jLabel31.setBounds(10, 10, 50, 19);
+
+        jPanel9.setBackground(new java.awt.Color(34, 87, 126));
+        jPanel9.setMaximumSize(new java.awt.Dimension(100, 5));
+        jPanel9.setMinimumSize(new java.awt.Dimension(100, 5));
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        jPanel7.add(jPanel9);
+        jPanel9.setBounds(10, 30, 25, 5);
+
+        jLabel19.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("Coin name");
+        jPanel7.add(jLabel19);
+        jLabel19.setBounds(10, 50, 140, 19);
+
+        jComboBox2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel7.add(jComboBox2);
+        jComboBox2.setBounds(10, 80, 140, 30);
+
+        jLabel20.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Quantity");
+        jPanel7.add(jLabel20);
+        jLabel20.setBounds(160, 50, 80, 19);
+
+        jTextField10.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField10.setText("jTextField8");
+        jPanel7.add(jTextField10);
+        jTextField10.setBounds(160, 80, 83, 30);
+
+        jLabel21.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setText("Difference price (VNĐ)");
+        jPanel7.add(jLabel21);
+        jLabel21.setBounds(150, 120, 160, 19);
+
+        jLabel22.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("Price (VNĐ)");
+        jPanel7.add(jLabel22);
+        jLabel22.setBounds(260, 50, 140, 19);
+
+        jTextField12.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField12.setText("jTextField9");
+        jPanel7.add(jTextField12);
+        jTextField12.setBounds(260, 80, 140, 30);
+
+        jButton3.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jButton3.setText("Save");
+        jPanel7.add(jButton3);
+        jButton3.setBounds(380, 140, 80, 40);
+
+        jLabel23.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setText("jLabel23");
+        jPanel7.add(jLabel23);
+        jLabel23.setBounds(150, 150, 160, 30);
+
+        pnlBotHistory.add(jPanel7);
+        jPanel7.setBounds(490, 140, 470, 190);
+
+        layeredPaneBot.add(pnlBotHistory, "card2");
+
+        pnlBotCoin.setBackground(new java.awt.Color(238, 238, 238));
+        pnlBotCoin.setMaximumSize(new java.awt.Dimension(970, 588));
+        pnlBotCoin.setMinimumSize(new java.awt.Dimension(970, 588));
+        pnlBotCoin.setLayout(null);
+        pnlBotCoin.add(jSeparator3);
+        jSeparator3.setBounds(0, 0, 1263, 10);
+
+        jLabel27.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel27.setText("LIST COIN");
+        pnlBotCoin.add(jLabel27);
+        jLabel27.setBounds(20, 140, 80, 19);
+
+        jPanel10.setBackground(new java.awt.Color(34, 87, 126));
+        jPanel10.setMaximumSize(new java.awt.Dimension(100, 5));
+        jPanel10.setMinimumSize(new java.awt.Dimension(100, 5));
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        pnlBotCoin.add(jPanel10);
+        jPanel10.setBounds(20, 160, 50, 5);
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "No", "ID", "Coin name", "Quantity", "STT"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(jTable4);
+        jTable4.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        pnlBotCoin.add(jScrollPane4);
+        jScrollPane4.setBounds(10, 180, 950, 400);
+
+        jPanel11.setBackground(new java.awt.Color(81, 146, 89));
+        jPanel11.setLayout(null);
+
+        jPanel12.setBackground(new java.awt.Color(34, 87, 126));
+        jPanel12.setMaximumSize(new java.awt.Dimension(100, 5));
+        jPanel12.setMinimumSize(new java.awt.Dimension(100, 5));
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        jPanel11.add(jPanel12);
+        jPanel12.setBounds(10, 30, 70, 5);
+
+        jLabel32.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel32.setText("INFORMATION");
+        jPanel11.add(jLabel32);
+        jLabel32.setBounds(10, 10, 120, 19);
+
+        jButton7.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jButton7.setText("Restore");
+        jPanel11.add(jButton7);
+        jButton7.setBounds(370, 90, 90, 30);
+
+        jButton8.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jButton8.setText("Add");
+        jPanel11.add(jButton8);
+        jButton8.setBounds(50, 90, 80, 30);
+
+        jButton9.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jButton9.setText("Update");
+        jPanel11.add(jButton9);
+        jButton9.setBounds(150, 90, 90, 30);
+
+        jButton10.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jButton10.setText("Delete");
+        jPanel11.add(jButton10);
+        jButton10.setBounds(260, 90, 90, 30);
+
+        jTextField9.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTextField9.setText("jTextField9");
+        jPanel11.add(jTextField9);
+        jTextField9.setBounds(150, 40, 200, 30);
+
+        pnlBotCoin.add(jPanel11);
+        jPanel11.setBounds(250, 20, 500, 140);
+
+        layeredPaneBot.add(pnlBotCoin, "card2");
+
+        pnlBotUser.setBackground(new java.awt.Color(238, 238, 238));
+        pnlBotUser.setMaximumSize(new java.awt.Dimension(970, 588));
+        pnlBotUser.setMinimumSize(new java.awt.Dimension(970, 588));
+        pnlBotUser.setLayout(null);
+        pnlBotUser.add(jSeparator4);
+        jSeparator4.setBounds(0, 0, 1263, 10);
+
+        jPanel14.setBackground(new java.awt.Color(81, 146, 89));
+        jPanel14.setLayout(null);
+
+        jPanel15.setBackground(new java.awt.Color(34, 87, 126));
+        jPanel15.setMaximumSize(new java.awt.Dimension(100, 5));
+        jPanel15.setMinimumSize(new java.awt.Dimension(100, 5));
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        jPanel14.add(jPanel15);
+        jPanel15.setBounds(10, 30, 70, 5);
+
+        jLabel34.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel34.setText("INFORMATION");
+        jPanel14.add(jLabel34);
+        jLabel34.setBounds(10, 10, 120, 19);
+
+        txt_User_name.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jPanel14.add(txt_User_name);
+        txt_User_name.setBounds(160, 90, 200, 30);
+
+        jLabel24.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel24.setText("Name:");
+        jPanel14.add(jLabel24);
+        jLabel24.setBounds(80, 90, 80, 30);
+
+        jLabel25.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel25.setText("Username:");
+        jPanel14.add(jLabel25);
+        jLabel25.setBounds(80, 50, 80, 30);
+
+        txt_User_username.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_User_username.setEnabled(false);
+        jPanel14.add(txt_User_username);
+        txt_User_username.setBounds(160, 50, 200, 30);
+
+        btn_User_saveInfo.setText("Save");
+        btn_User_saveInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_User_saveInfoActionPerformed(evt);
+            }
+        });
+        jPanel14.add(btn_User_saveInfo);
+        btn_User_saveInfo.setBounds(200, 140, 100, 30);
+
+        pnlBotUser.add(jPanel14);
+        jPanel14.setBounds(220, 30, 500, 180);
+
+        jPanel13.setBackground(new java.awt.Color(85, 132, 172));
+        jPanel13.setLayout(null);
+
+        jPanel16.setBackground(new java.awt.Color(34, 87, 126));
+        jPanel16.setMaximumSize(new java.awt.Dimension(100, 5));
+        jPanel16.setMinimumSize(new java.awt.Dimension(100, 5));
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        jPanel13.add(jPanel16);
+        jPanel16.setBounds(10, 30, 100, 5);
+
+        jLabel35.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel35.setText("CHANGE PASSWORD");
+        jPanel13.add(jLabel35);
+        jLabel35.setBounds(10, 10, 170, 19);
+
+        jLabel33.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel33.setText("Confirm password:");
+        jPanel13.add(jLabel33);
+        jLabel33.setBounds(110, 130, 140, 30);
+
+        jLabel36.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel36.setText("Old password:");
+        jPanel13.add(jLabel36);
+        jLabel36.setBounds(110, 50, 140, 30);
+
+        jLabel37.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel37.setText("New password:");
+        jPanel13.add(jLabel37);
+        jLabel37.setBounds(110, 90, 140, 30);
+
+        txt_User_confirm.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jPanel13.add(txt_User_confirm);
+        txt_User_confirm.setBounds(260, 130, 200, 30);
+
+        txt_User_oldPass.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jPanel13.add(txt_User_oldPass);
+        txt_User_oldPass.setBounds(260, 50, 200, 30);
+
+        txt_User_newPass.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jPanel13.add(txt_User_newPass);
+        txt_User_newPass.setBounds(260, 90, 200, 30);
+
+        btn_User_savePass.setText("Save");
+        btn_User_savePass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_User_savePassActionPerformed(evt);
+            }
+        });
+        jPanel13.add(btn_User_savePass);
+        btn_User_savePass.setBounds(210, 170, 100, 30);
+
+        pnlBotUser.add(jPanel13);
+        jPanel13.setBounds(220, 230, 500, 220);
+
+        layeredPaneBot.add(pnlBotUser, "card2");
 
         pnlBottom.add(layeredPaneBot, java.awt.BorderLayout.CENTER);
 
@@ -292,10 +1211,81 @@ public class MainGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         int close = JOptionPane.showConfirmDialog(this, "Do you want to exit?");
         if (close == JOptionPane.YES_OPTION) {
-            new LoginGUI().setVisible(true);
+            try {
+                new LoginGUI().setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.dispose();
         }
     }//GEN-LAST:event_btn_exitMouseClicked
+
+    private void btn_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_userMouseClicked
+        // TODO add your handling code here:
+        switchPanels(pnlTopUser, pnlBotUser);
+    }//GEN-LAST:event_btn_userMouseClicked
+
+    private void btn_historyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_historyMouseClicked
+        // TODO add your handling code here:
+        switchPanels(pnlTopHistory, pnlBotHistory);
+    }//GEN-LAST:event_btn_historyMouseClicked
+
+    private void btn_coinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_coinMouseClicked
+        // TODO add your handling code here:
+        switchPanels(pnlTopCoin, pnlBotCoin);
+    }//GEN-LAST:event_btn_coinMouseClicked
+
+    private void btn_User_saveInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_User_saveInfoActionPerformed
+        // TODO add your handling code here:
+        String name = txt_User_name.getText();
+
+        UserDTO user = new UserDTO(USER.getId(), USER.getUserlogin(), USER.getUserpass(), name);
+        try {
+            if (UserDAO.repairToDB(user)) {
+                USER.setUsername(name);
+                txt_User_name.setText(name);
+                JOptionPane.showMessageDialog(this, "Change name successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Change name failure", "Alert", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_User_saveInfoActionPerformed
+
+    private void btn_User_savePassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_User_savePassActionPerformed
+        // TODO add your handling code here:
+        String oldPass = txt_User_oldPass.getText();
+        String newPass = txt_User_newPass.getText();
+        String confirm = txt_User_confirm.getText();
+        if (oldPass.equals("") || newPass.equals("") || confirm.equals("")) {
+            JOptionPane.showMessageDialog(this, "Please fill out the form", "Alert", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (!newPass.equals(confirm)) {
+                JOptionPane.showMessageDialog(this, "Confirm password is wrong!", "Alert", JOptionPane.WARNING_MESSAGE);
+            } else {
+                try {
+                    String md5Pass = UserDAO.hashMD5(newPass);
+                    if (UserDAO.hashMD5(oldPass).equals(USER.getUserpass())) {
+                        try {
+                            USER.setUserpass(md5Pass);
+                            if (UserDAO.repairToDB(USER)) {
+                                JOptionPane.showMessageDialog(this, "Change password success");
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Change password failure", "Alert", JOptionPane.WARNING_MESSAGE);
+                            }
+                        } catch (IOException ex) {
+                            Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(this, "Old password is wrong", "Alert", JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_btn_User_savePassActionPerformed
 
     /**
      * @param args the command line arguments
@@ -334,21 +1324,123 @@ public class MainGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_User_saveInfo;
+    private javax.swing.JButton btn_User_savePass;
+    private javax.swing.JButton btn_coin;
     private javax.swing.JButton btn_exit;
+    private javax.swing.JButton btn_history;
     private javax.swing.JButton btn_home;
+    private javax.swing.JButton btn_user;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
     private javax.swing.JLayeredPane layeredPaneBot;
     private javax.swing.JLayeredPane layeredPaneTop;
+    private javax.swing.JPanel pnlBotCoin;
+    private javax.swing.JPanel pnlBotHistory;
     private javax.swing.JPanel pnlBotHome;
+    private javax.swing.JPanel pnlBotUser;
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlCenter;
     private javax.swing.JPanel pnlRoot;
     private javax.swing.JPanel pnlSide;
     private javax.swing.JPanel pnlTop;
+    private javax.swing.JPanel pnlTopCoin;
+    private javax.swing.JPanel pnlTopHistory;
     private javax.swing.JPanel pnlTopHome;
+    private javax.swing.JPanel pnlTopUser;
+    private javax.swing.JPasswordField txt_User_confirm;
+    private javax.swing.JTextField txt_User_name;
+    private javax.swing.JPasswordField txt_User_newPass;
+    private javax.swing.JPasswordField txt_User_oldPass;
+    private javax.swing.JTextField txt_User_username;
     // End of variables declaration//GEN-END:variables
 }

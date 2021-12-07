@@ -5,10 +5,18 @@
  */
 package GUI;
 
+import DAO.UserDAO;
+import DTO.UserDTO;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 /**
@@ -20,39 +28,48 @@ public class LoginGUI extends javax.swing.JFrame {
     /**
      * Creates new form LoginGUI
      */
-    public LoginGUI() {
+    public LoginGUI() throws IOException {
         initComponents();
 
-        JButton[] btns = {btn_login, btn_register};
-        for (JButton btn : btns) {
-            btn.setUI(new BasicButtonUI());
-            btn.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
+//        JButton[] btns = {btn_login, btn_register};
+//        for (JButton btn : btns) {
+//            btn.setUI(new BasicButtonUI());
+//            btn.addMouseListener(new MouseListener() {
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//
+//                }
+//
+//                @Override
+//                public void mousePressed(MouseEvent e) {
+//                    btn.setBackground(new Color(97, 89, 125));
+//                }
+//
+//                @Override
+//                public void mouseReleased(MouseEvent e) {
+//
+//                }
+//
+//                @Override
+//                public void mouseEntered(MouseEvent e) {
+//
+//                }
+//
+//                @Override
+//                public void mouseExited(MouseEvent e) {
+//                    btn.setBackground(new Color(87, 79, 125));
+//                }
+//            });
+//        }
+        loadUser();
+    }
+    
+    public static UserDTO USER;
 
-                }
+    private static List<UserDTO> lstUser;
 
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    btn.setBackground(new Color(97, 89, 125));
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    btn.setBackground(new Color(87, 79, 125));
-                }
-            });
-        }
+    private void loadUser() throws IOException {
+        lstUser = UserDAO.loadUser();
     }
 
     /**
@@ -64,110 +81,264 @@ public class LoginGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        txt_username = new javax.swing.JTextField();
-        txt_password = new javax.swing.JTextField();
-        btn_login = new javax.swing.JButton();
+        txt_registerName = new javax.swing.JTextField();
+        txt_registerUsername = new javax.swing.JTextField();
         btn_register = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
+        jSeparator4 = new javax.swing.JSeparator();
+        jSeparator5 = new javax.swing.JSeparator();
+        txt_registerPwd = new javax.swing.JPasswordField();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        txt_loginUsername = new javax.swing.JTextField();
+        btn_login = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        txt_loginPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(450, 280));
-        setMinimumSize(new java.awt.Dimension(450, 280));
-        setPreferredSize(new java.awt.Dimension(450, 280));
+        setMaximumSize(new java.awt.Dimension(800, 370));
+        setMinimumSize(new java.awt.Dimension(800, 370));
+        setPreferredSize(new java.awt.Dimension(800, 370));
         setResizable(false);
-        setSize(new java.awt.Dimension(450, 280));
+        setSize(new java.awt.Dimension(800, 370));
+        getContentPane().setLayout(null);
 
-        jPanel2.setBackground(new java.awt.Color(80, 58, 101));
+        jPanel1.setBackground(new java.awt.Color(85, 132, 172));
+        jPanel1.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(238, 238, 238));
+        jLabel1.setForeground(new java.awt.Color(246, 242, 212));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("LOGIN");
+        jLabel1.setText("REGISTER");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(0, 10, 420, 50);
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(238, 238, 238));
-        jLabel2.setText("Username");
+        txt_registerName.setBackground(new java.awt.Color(85, 132, 172));
+        txt_registerName.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_registerName.setForeground(new java.awt.Color(153, 153, 153));
+        txt_registerName.setText("Enter name");
+        txt_registerName.setBorder(null);
+        txt_registerName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_registerNameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_registerNameFocusLost(evt);
+            }
+        });
+        jPanel1.add(txt_registerName);
+        txt_registerName.setBounds(100, 200, 230, 40);
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(238, 238, 238));
-        jLabel3.setText("Password");
+        txt_registerUsername.setBackground(new java.awt.Color(85, 132, 172));
+        txt_registerUsername.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_registerUsername.setForeground(new java.awt.Color(153, 153, 153));
+        txt_registerUsername.setText("Enter username");
+        txt_registerUsername.setBorder(null);
+        txt_registerUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_registerUsernameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_registerUsernameFocusLost(evt);
+            }
+        });
+        jPanel1.add(txt_registerUsername);
+        txt_registerUsername.setBounds(100, 80, 230, 40);
 
-        txt_username.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btn_register.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        btn_register.setText("REGISTER");
+        btn_register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_registerActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_register);
+        btn_register.setBounds(160, 270, 120, 40);
+        jPanel1.add(jSeparator3);
+        jSeparator3.setBounds(100, 240, 230, 2);
+        jPanel1.add(jSeparator4);
+        jSeparator4.setBounds(100, 180, 230, 2);
+        jPanel1.add(jSeparator5);
+        jSeparator5.setBounds(100, 120, 230, 2);
 
-        txt_password.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txt_registerPwd.setBackground(new java.awt.Color(85, 132, 172));
+        txt_registerPwd.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_registerPwd.setBorder(null);
+        jPanel1.add(txt_registerPwd);
+        txt_registerPwd.setBounds(100, 140, 230, 40);
 
-        btn_login.setBackground(new java.awt.Color(87, 79, 125));
-        btn_login.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btn_login.setForeground(new java.awt.Color(224, 240, 234));
-        btn_login.setText("Login");
-        btn_login.setBorder(null);
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 420, 370);
 
-        btn_register.setBackground(new java.awt.Color(87, 79, 125));
-        btn_register.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btn_register.setForeground(new java.awt.Color(224, 240, 234));
-        btn_register.setText("Register");
-        btn_register.setBorder(null);
+        jPanel2.setBackground(new java.awt.Color(34, 87, 126));
+        jPanel2.setLayout(null);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(97, 97, 97)
-                        .addComponent(btn_login, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_register, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(66, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_register, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-                .addContainerGap(36, Short.MAX_VALUE))
-        );
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(246, 242, 212));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("LOGIN");
+        jPanel2.add(jLabel2);
+        jLabel2.setBounds(0, 10, 380, 50);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        txt_loginUsername.setBackground(new java.awt.Color(34, 87, 126));
+        txt_loginUsername.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_loginUsername.setForeground(new java.awt.Color(153, 153, 153));
+        txt_loginUsername.setText("Enter username");
+        txt_loginUsername.setBorder(null);
+        txt_loginUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_loginUsernameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_loginUsernameFocusLost(evt);
+            }
+        });
+        jPanel2.add(txt_loginUsername);
+        txt_loginUsername.setBounds(80, 80, 230, 40);
+
+        btn_login.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        btn_login.setText("LOGIN");
+        btn_login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_loginActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_login);
+        btn_login.setBounds(150, 220, 100, 40);
+        jPanel2.add(jSeparator1);
+        jSeparator1.setBounds(80, 180, 230, 2);
+        jPanel2.add(jSeparator2);
+        jSeparator2.setBounds(80, 120, 230, 2);
+
+        txt_loginPassword.setBackground(new java.awt.Color(34, 87, 126));
+        txt_loginPassword.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        txt_loginPassword.setBorder(null);
+        jPanel2.add(txt_loginPassword);
+        txt_loginPassword.setBounds(80, 140, 230, 40);
+
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(419, 0, 380, 370);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txt_loginUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_loginUsernameFocusGained
+        // TODO add your handling code here:
+        if (txt_loginUsername.getText().equals("Enter username")) {
+            txt_loginUsername.setText("");
+            txt_loginUsername.setForeground(new Color(238, 238, 238));
+        }
+    }//GEN-LAST:event_txt_loginUsernameFocusGained
+
+    private void txt_loginUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_loginUsernameFocusLost
+        // TODO add your handling code here:
+        if (txt_loginUsername.getText().equals("")) {
+            txt_loginUsername.setText("Enter username");
+            txt_loginUsername.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txt_loginUsernameFocusLost
+
+    private void txt_registerUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_registerUsernameFocusGained
+        // TODO add your handling code here:
+        if (txt_registerUsername.getText().equals("Enter username")) {
+            txt_registerUsername.setText("");
+            txt_registerUsername.setForeground(new Color(238, 238, 238));
+        }
+    }//GEN-LAST:event_txt_registerUsernameFocusGained
+
+    private void txt_registerUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_registerUsernameFocusLost
+        // TODO add your handling code here:
+        if (txt_registerUsername.getText().equals("")) {
+            txt_registerUsername.setText("Enter username");
+            txt_registerUsername.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txt_registerUsernameFocusLost
+
+    private void txt_registerNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_registerNameFocusGained
+        // TODO add your handling code here:
+        if (txt_registerName.getText().equals("Enter name")) {
+            txt_registerName.setText("");
+            txt_registerName.setForeground(new Color(238, 238, 238));
+        }
+    }//GEN-LAST:event_txt_registerNameFocusGained
+
+    private void txt_registerNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_registerNameFocusLost
+        // TODO add your handling code here:
+        if (txt_registerName.getText().equals("")) {
+            txt_registerName.setText("Enter name");
+            txt_registerName.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_txt_registerNameFocusLost
+
+    private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
+        // TODO add your handling code here:
+//        JOptionPane.showMessageDialog(this, String.valueOf(lstUser.size()));
+        if (txt_registerUsername.getText().equals("") || txt_registerPwd.getText().equals("") || txt_registerName.getText().equals("")
+                || txt_registerUsername.getText().equals("Enter username") || txt_registerName.getText().equals("Enter name")) {
+            JOptionPane.showMessageDialog(this, "Please fill out the form ", "Alert", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (!UserDAO.checkUsername(lstUser, txt_registerUsername.getText())) {
+                JOptionPane.showMessageDialog(this, "username already exist", "Alert", JOptionPane.WARNING_MESSAGE);
+            } else {
+                int id = UserDAO.getnextId(lstUser);
+                UserDTO user = new UserDTO();
+                user.setId(id);
+                user.setUserlogin(txt_registerUsername.getText().trim());
+                String pwd;
+                try {
+                    pwd = UserDAO.hashMD5(txt_registerPwd.getText());
+                    user.setUserpass(pwd);
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                user.setUsername(txt_registerName.getText());
+                lstUser.add(user);
+                try {
+                    if (UserDAO.writeToDB(user)) {
+                        JOptionPane.showMessageDialog(this, "Register successfully");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Register fail", "Alert", JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_btn_registerActionPerformed
+
+    private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
+        // TODO add your handling code here:
+        if (txt_loginUsername.getText().equals("") || txt_loginPassword.getText().equals("") || txt_loginUsername.getText().equals("Enter username")) {
+            JOptionPane.showMessageDialog(this, "Please fill out the form ", "Alert", JOptionPane.WARNING_MESSAGE);
+        } else {
+            String username = txt_loginUsername.getText().trim();
+            String pwd;
+            try {
+                pwd = UserDAO.hashMD5(txt_loginPassword.getText());
+                int checkLogin = UserDAO.checkLogin(lstUser, username, pwd);
+                if (checkLogin == 0) {
+                    JOptionPane.showMessageDialog(this, "Username or password not correct", "Alert", JOptionPane.WARNING_MESSAGE);
+                }else{
+                    USER = UserDAO.getUserById(lstUser, checkLogin);
+                    MainGUI frame = new MainGUI();
+                    
+                    MainGUI.USER = this.USER;
+                    
+                    frame.setVisible(true);
+                    frame.invalidate();
+                    frame.validate();
+                    this.setVisible(false);
+                }
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }//GEN-LAST:event_btn_loginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,7 +370,11 @@ public class LoginGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginGUI().setVisible(true);
+                try {
+                    new LoginGUI().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -209,9 +384,17 @@ public class LoginGUI extends javax.swing.JFrame {
     private javax.swing.JButton btn_register;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField txt_password;
-    private javax.swing.JTextField txt_username;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JPasswordField txt_loginPassword;
+    private javax.swing.JTextField txt_loginUsername;
+    private javax.swing.JTextField txt_registerName;
+    private javax.swing.JPasswordField txt_registerPwd;
+    private javax.swing.JTextField txt_registerUsername;
     // End of variables declaration//GEN-END:variables
 }
